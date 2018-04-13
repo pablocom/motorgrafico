@@ -262,10 +262,10 @@ function crearArbolEjemplo(callback)
     trans2 = crearTransformacion(treeRoot);
     trans3 = crearTransformacion(treeRoot);
     // trans1.entity.scalar([1.5,1.5,1.5]);
-    trans1.entity.traslate([3,1,8]);
-    trans2.entity.traslate([10,1,1]);
+    trans1.entity.traslate([10,1,1]);
+    trans2.entity.traslate([15 ,5,5]);
     camara = crearCamara(trans1);
-    luz = crearLuz(trans2,1.0);
+    luz = crearLuz(trans2,0.5);
     // trans1.entity.rotationY(250);
     // trans1.entity.rotationZ(250);
     // trans1.entity.rotationX(150);
@@ -273,8 +273,9 @@ function crearArbolEjemplo(callback)
     trans2.entity.traslate([1,1,1]);
     // trans3.entity.rotationZ(20);
     trans3.entity.traslate([-1,-1,-1]);
+    trans3.entity.rotationX(160);
     malla3 = crearMalla(trans3, "Vaso.json","Vaso.png");
-    // malla1 = crearMalla(trans2,"Susan.json","SusanTexture.png");
+    // malla1 = crearMalla(trans3,"Susan.json","SusanTexture.png");
     // malla2 = crearMalla(trans3,"Parada.json","Parada.png");
     // malla2 = crearMalla(trans1, "icosphereMaterial.json");
      // dibujarEscana();
