@@ -1,0 +1,34 @@
+*
+{
+    box-sizing: border-box;
+}
+img
+{
+    max-width:100%;
+    max-height: 100%;
+}
+section
+{
+    width:60%;
+    padding: 1em;
+    border:.1em solid #234;
+}
+    section>div
+	{
+        border: .1em solid #aaa;
+        padding: .5em;
+    }
+
+    section form>div>span
+	{
+        display: inline-block;
+    }
+    section form>div>input
+	{
+        margin:0 .2em;
+    }
+    section form>div>input[type="text"]
+	{
+        width:1.5em;
+        text-align: center;
+    }

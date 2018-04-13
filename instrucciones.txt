@@ -1,0 +1,53 @@
+
+INSTRUCCIONES FACHADA.JS
+
+Metodos que puedes llamar y que es lo que devuelven
+
+1-  CREAR MALLA -> crearMalla(nodoPadre, fichero);
+
+	- el fichero tiene q ser un string que coincida con el nombre de la malla.json que se quiere cargar.
+	- Devuelve la refencia al objeto creado
+	- Ejemplo de uso: coche = crearCoche(null, 'coche.json');
+		En este ejemplo se crearia un objeto malla cargando coche.json desde la carpeta de mallas dentro del gestorRecursos
+
+2-  CREAR LUZ -> crearLuz(nodoPadre);
+
+	- Para crear una luz solo tenemos que pasarle el nodo padre y se creara incialmente conn intensidad=undefined;
+	- Devuelve la refencia a el nodoLuz
+	- Ejemplo de uso: luz = crearLuz(null);
+		Guardariamos en luz la refencia al nodo creado con intensidad = undefined.
+		Mas tarde podriamos setear la intensidad asi:
+			- luz.entity.intensidad = 0.3
+
+3-  CREAR CAMARA -> crearCamara(nodoPadre);
+	- Devuelve la refencia al objeto creado (camara)
+	- Ejemplo de uso: camara = crearCamara(padre);
+		En este ejemplo se crearia un objeto Camara que tendria al nodo "padre" como father;
+
+4-  CREAR TRANSFORMACION -> crearTransformacion(nodoPadre);
+	- Devuelve la refencia al objeto creado
+	- Ejemplo de uso: trans1 = crearTransformacion(null);
+		En este ejemplo se crearia un objeto Transformacion
+		MODO DE APLICAR ROTACIONES
+		- Ejemplo de translacion:
+
+			nodoTransformacion.entity.translate([1,0,1]);
+			//La variable instancia matriz de ese nodo se habría cambiado
+
+			nodoTransformacion.entity.rotate([1,3,2]);
+			//La variable matriz de la entidad transformacion se rotaria con el vector pasado por parametro.
+
+			nodoTransformacion.entity.scalar([1,1,2]);
+			//La variable matriz de la entidad transformacion se rotaria con el vector pasado por parametro.
+
+			nodoTransformacion.rotateX(90);
+			//La matriz se rotaria en el eje X 90 grados
+
+			nodoTransformacion.rotateY(45);
+			//La matriz se rotaria en el eje Y 90 grados
+
+			nodoTransformacion.rotateZ(30);
+			//La matriz se rotaria en el eje Z 30 grados
+
+
+5-  eliminar FALTA

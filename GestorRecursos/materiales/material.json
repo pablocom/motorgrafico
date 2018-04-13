@@ -1,0 +1,19 @@
+﻿{
+	"colorSpecular":[0.302001,0.342979,0.033265],
+	"shading":"phong",
+	"doubleSided":false,
+	"depthTest":true,
+	"wireframe":false,
+	"vertexColors":false,
+	"DbgColor":15658734,
+	"colorEmissive":[0,0,0],
+	"blending":1,
+	"depthWrite":true,
+	"visible":true,
+	"specularCoef":50,
+	"opacity":1,
+	"DbgName":"Material.002",
+	"DbgIndex":0,
+	"transparent":true,
+	"colorDiffuse":[0.0481619,0.0518397,0.64]
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="estilo01.css">
+    <!-- <script src="./toji-gl-matrix-7fc31d5/src/gl-matrix.js" type="module"></script> -->
+    <script type="text/javascript" src="./vendor/js/signals.js"></script>
+    <script type="text/javascript" src="./vendor/js/glMatrix.js"></script>
+    <script type="text/javascript" src="./GestorRecursos/GestorRecursos.js"></script>
+    <script type="text/javascript" src="./fachada.js"></script>
+    
+    <!-- Shaders -->
+    <script name="shader" data-src="shaders/vertex.glsl" data-type="vertex" data-version="v1"></script>
+    <script name="shader" data-src="shaders/fragment.glsl" data-type="fragment" data-version="v1"></script>
+    
+    <!-- glUtils -->
+    <script type="text/javascript" src="libs/glUtils.js"></script>
+    <script type="text/javascript" src="libs/uiUtils.js"></script>
+    
+    <script type="text/javascript" src="./codigo01.js"></script>
+
+    <script type="text/javascript" src="index.js"></script> 
+    
+    <!-- ######### SHADERS ########## -->
+
+    <script id="vertex-shader" type="x-shader/x-fragment">
+
+        attribute vec4 position;
+
+        uniform mat4 Pmatrix;
+        uniform mat4 Vmatrix;
+        uniform mat4 Mmatrix;
+
+        attribute vec3 color;
+        varying vec3 vColor;
+        
+        void main(void)
+        {
+            gl_Position=Pmatrix*Vmatrix*Mmatrix*vec4(position, 1.);
+            vColor = color;
+        }
+
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        
+        precision mediump float;
+
+        varying vec3 vColor;
+        
+        void main(void)
+        {
+            gl_FragColor = vec4(vColor, 1.);
+        }
+
+    </script>
+
+</head>
+<body onload="startWebGL();">
+    <h1>Prueba de nodos</h1>
+    <section>
+        <footer id="nodefooter">
+            <form onsubmit="return createRoot(this)">
+                <span>Nombre raiz</span>
+                <input type="text" name="rootEntity">
+                <input type="submit" value="Crear raiz">
+            </form>
+        </footer>
+    </section>
+
+    <section>
+        <h2>Renderizado de la escena</h2>
+        <canvas id="glcanvas" height="480" width="480">
+          Tu navegador web no soporta el elemento <code>&lt;canvas&gt;</code>.
+        </canvas>
+    </section>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            function main()
+            {
+                const canvas=document.querySelector("#glcanvas");
+                const gl = canvas.getContext("webgl");
+                if(!gl)
+                {
+                    alert("Unable to initialize WebGL. Your browser or machine may not support it.");
+                        return;
+                }
+                  // Set clear color to black, fully opaque
+                  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                  // Clear the color buffer with specified clear color
+                  gl.clear(gl.COLOR_BUFFER_BIT);
+            }
+        </script>
+    </head>
+    <body onload="main()">
+        <canvas id="glcanvas" width="640" height="400">
+            Tu navegador no suporta HTML5 Canvas element
+        </canvas>
+    </body>
+</html>
+
