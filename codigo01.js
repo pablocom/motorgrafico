@@ -105,7 +105,16 @@ function Luz()
 
     this.beginDraw  = function()
     {
+        console.log("Creando la luz");
+        var ambientUniformLocation = gl.getUniformLocation(programHandle, 'ambientLightIntensity');
+        var sunlightDirUniformLocation = gl.getUniformLocation(programHandle, 'sun.direction');
+        var sunlightIntUniformLocation = gl.getUniformLocation(programHandle, 'sun.color');
 
+        let LuzPosition=[model[12],model[13],model[14]];
+        console.log(LuzPosition);
+        gl.uniform3f(ambientUniformLocation, 0.2, 0.2, 0.2);
+        gl.uniform3f(sunlightDirUniformLocation, LuzPosition[0], LuzPosition[1], LuzPosition[2]);
+        gl.uniform3f(sunlightIntUniformLocation, this.intensidad, this.intensidad, this.intensidad);
 
     }
 
@@ -144,7 +153,6 @@ function Camara()
 
         mat4.identity(worldMatrix);
         
-        console.log(model);
         let cameraPosition=[model[12],model[13],model[14]];
         let focusPosition=[0.5, 0.5, 0.5];
 
@@ -327,13 +335,13 @@ function Malla()
         //
         // gl.useProgram(programHandle);
 
-        var ambientUniformLocation = gl.getUniformLocation(programHandle, 'ambientLightIntensity');
-        var sunlightDirUniformLocation = gl.getUniformLocation(programHandle, 'sun.direction');
-        var sunlightIntUniformLocation = gl.getUniformLocation(programHandle, 'sun.color');
+        // var ambientUniformLocation = gl.getUniformLocation(programHandle, 'ambientLightIntensity');
+        // var sunlightDirUniformLocation = gl.getUniformLocation(programHandle, 'sun.direction');
+        // var sunlightIntUniformLocation = gl.getUniformLocation(programHandle, 'sun.color');
 
-        gl.uniform3f(ambientUniformLocation, 0.2, 0.2, 0.2);
-        gl.uniform3f(sunlightDirUniformLocation, 3.0, 4.0, -2.0);
-        gl.uniform3f(sunlightIntUniformLocation, 0.9, 0.9, 0.9);
+        // gl.uniform3f(ambientUniformLocation, 0.2, 0.2, 0.2);
+        // gl.uniform3f(sunlightDirUniformLocation, 3.0, 4.0, -2.0);
+        // gl.uniform3f(sunlightIntUniformLocation, 0.9, 0.9, 0.9);
 
         var caras=this.malla.faces.length;
 
