@@ -262,7 +262,7 @@ function crearArbolEjemplo(callback)
     trans2 = crearTransformacion(treeRoot);
     trans3 = crearTransformacion(treeRoot);
     // trans1.entity.scalar([1.5,1.5,1.5]);
-    trans1.entity.traslate([1,1,8]);
+    trans1.entity.traslate([3,1,8]);
     trans2.entity.traslate([10,1,1]);
     camara = crearCamara(trans1);
     luz = crearLuz(trans2,1.0);

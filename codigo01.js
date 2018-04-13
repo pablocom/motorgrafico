@@ -19,6 +19,7 @@ var matWorldUniformLocation;
 var matViewUniformLocation;
 var matProjUniformLocation;
 var matLightUniformLocation;
+var matCameraUniformLocaton;
 
 function Pila() {
 
@@ -139,33 +140,32 @@ function Camara()
         let canvas = document.getElementById('glcanvas');
         if(esPerspectiva) //Si es perspectiva, creamos la matriz perspectiva
         {
-            console.log("camara perspectiva");
             mat4.perspective(projMatrix, glMatrix.toRadian(45), canvas.width / canvas.height, cercano, lejano);
         }
         else //Creamos la matriz paralera
         {
-            console.log("camara paralera");
             mat4.ortho(projMatrix, 0, canvas.width, 0, canvas.height, cercano, lejano);
         }
 
         matWorldUniformLocation = gl.getUniformLocation(programHandle, 'mWorld');
         matViewUniformLocation = gl.getUniformLocation(programHandle, 'mView');
         matProjUniformLocation = gl.getUniformLocation(programHandle, 'mProj');
+        matCameraUniformLocaton = gl.getUniformLocation(programHandle,'mCameraLocation');
+
 
         mat4.identity(worldMatrix);
         
-        let cameraPosition=[model[12],model[13],model[14]];
+        let cameraPosition=[model[12],model[13],model[14],1];
         let focusPosition=[0.5, 0.5, 0.5];
 
-
-
         //viewMatrix = glm::lookAt(cameraPosition,cameraFocus,orientation);
-        mat4.lookAt(viewMatrix, cameraPosition,focusPosition , [0, 1, 0]);
+        mat4.lookAt(viewMatrix, [model[12],model[13],model[14]],focusPosition , [0, 1, 0]);
+
         
         gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
         gl.uniformMatrix4fv(matViewUniformLocation, gl.FALSE, viewMatrix);
         gl.uniformMatrix4fv(matProjUniformLocation, gl.FALSE, projMatrix);
-
+        gl.uniformMatrix4fv(matCameraUniformLocaton, gl.FALSE, cameraPosition);
 
     }
 
