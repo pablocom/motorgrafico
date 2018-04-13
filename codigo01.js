@@ -18,6 +18,7 @@ var projMatrix = new Float32Array(16);
 var matWorldUniformLocation;
 var matViewUniformLocation;
 var matProjUniformLocation;
+var matLightUniformLocation;
 
 function Pila() {
 
@@ -111,7 +112,7 @@ function Luz()
         var sunlightIntUniformLocation = gl.getUniformLocation(programHandle, 'sun.color');
 
         let LuzPosition=[model[12],model[13],model[14]];
-        console.log(LuzPosition);
+
         gl.uniform3f(ambientUniformLocation, 0.2, 0.2, 0.2);
         gl.uniform3f(sunlightDirUniformLocation, LuzPosition[0], LuzPosition[1], LuzPosition[2]);
         gl.uniform3f(sunlightIntUniformLocation, this.intensidad, this.intensidad, this.intensidad);
