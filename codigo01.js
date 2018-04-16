@@ -117,7 +117,6 @@ function Luz()
         gl.uniform3f(ambientUniformLocation, 0.2, 0.2, 0.2);
         gl.uniform3f(sunlightDirUniformLocation, LuzPosition[0], LuzPosition[1], LuzPosition[2]);
         gl.uniform3f(sunlightIntUniformLocation, this.intensidad, this.intensidad, this.intensidad);
-
     }
 
     this.endDraw    = function()
@@ -156,11 +155,16 @@ function Camara()
         mat4.identity(worldMatrix);
         
         let cameraPosition=[model[12],model[13],model[14],1];
-        let focusPosition=[0.5, 0.5, 0.5];
+        let focusPosition=[2, 2, 2];
 
+        
         //viewMatrix = glm::lookAt(cameraPosition,cameraFocus,orientation);
-        mat4.lookAt(viewMatrix, [model[12],model[13],model[14]],focusPosition , [0, 1, 0]);
-
+        // mat4.lookAt(viewMatrix, [model[12],model[13],model[14]],focusPosition , [0, 1, 0]);
+        for(let i=0;i<16;i++)
+        {
+            viewMatrix[i]=model[i];
+        }
+        console.log(viewMatrix);
         
         gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
         gl.uniformMatrix4fv(matViewUniformLocation, gl.FALSE, viewMatrix);

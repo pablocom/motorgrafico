@@ -27,16 +27,13 @@ void main()
 	float d = length(sun.direction.xyz - fPos);
 	float attenuation = 80.0/(0.25+(0.01*d)+(0.003*d*d));
 
-	
-	
-
 	vec3 surfaceNormal = normalize(fragNormal);
 	vec3 normSunDir = normalize(sun.direction);
 	vec4 texel = texture2D(sampler, fragTexCoord);
 
 	float a = max(0.0, dot(reflect(-normSunDir,fragNormal), V));
 
-	float b = a*a*a*a*a*a*a*a*a*a;
+	float b = a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a;
 
 	float c = 2.0 * attenuation*b;
 
