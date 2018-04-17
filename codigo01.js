@@ -124,6 +124,11 @@ function Luz()
 
     }
 
+    this.changeIntensity = function(inten)
+    {
+        this.intensidad=inten;
+    }
+
 }
 function Camara()
 {
