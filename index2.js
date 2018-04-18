@@ -283,8 +283,9 @@ function crearArbolEjemplo(callback)
     // trans3.entity.rotationZ(20);
     trans3.entity.traslate([0,0,0]);
     trans3.entity.rotationX(160);
+    malla1 = crearMalla(trans4  ,"Susan.json","SusanTexture.png");
     malla3 = crearMalla(trans3, "Vaso.json","Vaso.png");
-    // malla1 = crearMalla(trans4  ,"Susan.json","SusanTexture.png");
+    
     // malla2 = crearMalla(trans3,"Parada.json","Parada.png");
     // malla2 = crearMalla(trans1, "icosphereMaterial.json");
      // dibujarEscana();
@@ -293,7 +294,7 @@ function crearArbolEjemplo(callback)
 
 function moverCamara(direccion)
 {
-    var salto = 0.01;
+    var salto = 0.05;
     switch(direccion){
         case 'alante':
             trans1.entity.traslate([0.0,0.0,salto]);
@@ -322,11 +323,11 @@ function moverCamara(direccion)
         default:
             console.log('Ha habido un error moviendo la camara');
     }
-    treeRoot.draw();
 }
 
 window.onkeypress = function(e)
 {
+
     if(e.key == 'a')
     {
         moverCamara('der');
@@ -352,3 +353,11 @@ window.onkeypress = function(e)
         moverCamara('abajo');
     }
 }
+
+function animate(){
+    setInterval(function(){
+
+        treeRoot.draw();
+    }, 100); 
+}
+

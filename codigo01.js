@@ -21,6 +21,11 @@ var matProjUniformLocation;
 var matLightUniformLocation;
 var matCameraUniformLocaton;
 
+var positionAttribLocation;
+var texCoordAttribLocation;
+var normalAttribLocation;
+var Texture;
+
 function Pila() {
 
     var elements = [];
@@ -251,26 +256,8 @@ function Malla()
         gl.frontFace(gl.CCW);
         gl.cullFace(gl.BACK);
 
-        var vertexBufferObject = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBufferObject);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.malla.vertices), gl.STATIC_DRAW);
-
-        var susanTexCoordVertexBufferObject = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, susanTexCoordVertexBufferObject);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.malla.fichero.meshes[0].texturecoords[0]), gl.STATIC_DRAW);
-
-
-        var normalBufferObject = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, normalBufferObject);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.malla.normales), gl.STATIC_DRAW);
-
-
-        var indexBufferObject = gl.createBuffer();
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBufferObject);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.malla.faces), gl.STATIC_DRAW);
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBufferObject);
-        var positionAttribLocation = gl.getAttribLocation(programHandle, 'vertPosition');
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.malla.vertexBufferObject);
+        positionAttribLocation = gl.getAttribLocation(programHandle, 'vertPosition');
         gl.vertexAttribPointer
         (
             positionAttribLocation, // Attribute location
@@ -282,8 +269,8 @@ function Malla()
         );
         gl.enableVertexAttribArray(positionAttribLocation);
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, susanTexCoordVertexBufferObject);
-        var texCoordAttribLocation = gl.getAttribLocation(programHandle, 'vertTexCoord');
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.malla.TexCoordVertexBufferObject);
+        texCoordAttribLocation = gl.getAttribLocation(programHandle, 'vertTexCoord');
         gl.vertexAttribPointer
         (
             texCoordAttribLocation, // Attribute location
@@ -295,8 +282,8 @@ function Malla()
         );
         gl.enableVertexAttribArray(texCoordAttribLocation);
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, normalBufferObject);
-        var normalAttribLocation = gl.getAttribLocation(programHandle, 'vertNormal');
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.malla.normalBufferObject);
+        normalAttribLocation = gl.getAttribLocation(programHandle, 'vertNormal');
         gl.vertexAttribPointer(
             normalAttribLocation,
             3, gl.FLOAT,
@@ -309,8 +296,8 @@ function Malla()
         //11
         // let SusanImage= new Image();
         // SusanImage=this.textura;
-        var susanTexture = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, susanTexture);
+        Texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, Texture);
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -357,21 +344,16 @@ function Malla()
 
         var caras=this.malla.faces.length;
 
-        var identityMatrix = new Float32Array(16);
-        mat4.identity(identityMatrix);
-        mat4.mul(worldMatrix, worldMatrix, model);
-
-        gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
+        gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, model);
 
         // gl.clearColor(0.75, 0.85, 0.8, 1.0);
         // gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 
-        gl.bindTexture(gl.TEXTURE_2D, susanTexture);
+        gl.bindTexture(gl.TEXTURE_2D, Texture);
         gl.activeTexture(gl.TEXTURE0);
         
         gl.drawElements(gl.TRIANGLES, caras, gl.UNSIGNED_SHORT, 0);
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
-        gl.bindBuffer(gl.ARRAY_BUFFER,null);
+
     }
 
     this.endDraw    = function()
@@ -924,4 +906,5 @@ function updateSelector()
     return false;
 
 }
+
 

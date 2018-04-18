@@ -30,6 +30,10 @@ class TRecursoMalla extends TRecurso
     	this.colors=[];    	
 		this.metadata;
 		this.fichero;
+		this.vertexBufferObject;
+		this.normalBufferObject;
+		this.indexBufferObject;
+		this.TexCoordVertexBufferObject;
     }  
 
     cargarFichero()
@@ -48,6 +52,7 @@ class TRecursoMalla extends TRecurso
 	        {
 
 	        	that.actualizarValores(JSON.parse(vsText));
+
 		    }
 		});
 		return this.fichero;
@@ -62,6 +67,24 @@ class TRecursoMalla extends TRecurso
     	this.colors   = j.colors;
     	this.metadata = j.meshes[0].faces.length;
     	this.fichero  = j;
+    	
+        this.vertexBufferObject = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBufferObject);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.vertices), gl.STATIC_DRAW);
+
+		this.normalBufferObject = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBufferObject);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.normales), gl.STATIC_DRAW);
+
+        this.indexBufferObject = gl.createBuffer();
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBufferObject);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.faces), gl.STATIC_DRAW);
+
+        this.TexCoordVertexBufferObject = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.TexCoordVertexBufferObject);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.fichero.meshes[0].texturecoords[0]), gl.STATIC_DRAW);
+
+        
     }
 
     // draw(){
