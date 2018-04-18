@@ -33,7 +33,7 @@ void main()
 
 	float a = max(0.0, dot(reflect(-normSunDir,fragNormal), V));
 
-	float b = a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a;
+	float b = a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a;
 
 	float c = 2.0 * attenuation*b;
 

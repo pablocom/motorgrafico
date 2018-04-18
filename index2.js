@@ -256,31 +256,99 @@ function dibujarEscana()
     treeRoot.draw();
 }
 
+function EntityAvanzar(valor)
+{
+    trans1.entity.traslate([0.0,0.0,valor]);
+}
+
+
 function crearArbolEjemplo(callback)
 {
     trans1 = crearTransformacion(treeRoot);
-    trans2 = crearTransformacion(treeRoot);
+    transLuz = crearTransformacion(treeRoot);
     trans3 = crearTransformacion(treeRoot);
     trans4 = crearTransformacion(treeRoot);
     trans4.entity.traslate([1.5,1.5,1.5]);
+    trans4.entity.rotationX(90);
     trans1.entity.traslate([0,1,-10]);
 
-    trans2.entity.rotationX(30);
-    trans2.entity.traslate([5 ,15,5]);
+    transLuz.entity.rotationX(30);
+    transLuz.entity.traslate([5 ,15,5]);
     camara = crearCamara(trans1);
-    luz = crearLuz(trans2,1.0);
+    luz = crearLuz(transLuz,1.0);
     // trans1.entity.rotationY(250);
     // trans1.entity.rotationZ(250);
     // trans1.entity.rotationX(150);
     // trans2.entity.rotationX(90);
-    trans2.entity.traslate([1,1,1]);
     // trans3.entity.rotationZ(20);
     trans3.entity.traslate([0,0,0]);
     trans3.entity.rotationX(160);
     malla3 = crearMalla(trans3, "Vaso.json","Vaso.png");
-    malla1 = crearMalla(trans4  ,"Susan.json","SusanTexture.png");
+    // malla1 = crearMalla(trans4  ,"Susan.json","SusanTexture.png");
     // malla2 = crearMalla(trans3,"Parada.json","Parada.png");
     // malla2 = crearMalla(trans1, "icosphereMaterial.json");
      // dibujarEscana();
      
+}
+
+function moverCamara(direccion)
+{
+    var salto = 0.01;
+    switch(direccion){
+        case 'alante':
+            trans1.entity.traslate([0.0,0.0,salto]);
+
+            break;
+        case 'detras':
+            trans1.entity.traslate([0.0,0.0,-salto]);
+
+            break;
+        case 'izq':
+            trans1.entity.traslate([salto,0.0,0.0]);
+
+            break;
+        case 'der':
+            trans1.entity.traslate([-salto,0.0,0.0]);
+
+            break;
+        case 'arriba':
+            trans1.entity.traslate([0.0,salto,0.0]);
+
+            break;
+        case 'abajo':
+            trans1.entity.traslate([0.0,-salto,0.0]);
+
+            break;
+        default:
+            console.log('Ha habido un error moviendo la camara');
+    }
+    treeRoot.draw();
+}
+
+window.onkeypress = function(e)
+{
+    if(e.key == 'a')
+    {
+        moverCamara('der');
+    }
+    if(e.key == 'd')
+    {
+        moverCamara('izq');
+    }
+    if(e.key == 'w')
+    {
+        moverCamara('alante');
+    }
+    if(e.key == 's')
+    {
+        moverCamara('detras');
+    }
+    if(e.key == 'e')
+    {
+        moverCamara('arriba');
+    }
+    if(e.key == 'q')
+    {
+        moverCamara('abajo');
+    }
 }

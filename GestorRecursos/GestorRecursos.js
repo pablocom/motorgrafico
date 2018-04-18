@@ -47,12 +47,11 @@ class TRecursoMalla extends TRecurso
 	        else 
 	        {
 
-	        	 that.actualizarValores(JSON.parse(vsText));
-	        	 
+	        	that.actualizarValores(JSON.parse(vsText));
 		    }
 		});
 		return this.fichero;
-    }  
+    } 
 
     actualizarValores(j)
     {

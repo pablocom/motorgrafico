@@ -183,6 +183,8 @@ function Camara()
 
     }
 
+
+
 }
 /**************************************
 Ramon end
@@ -602,7 +604,6 @@ Metodo draw
 *********************************************/
     this.draw = function()
     {
-        // console.log("Entrando a draw:", this.name);
         if(this.name!="raiz"){
             this.entity.beginDraw();
         }
@@ -886,12 +887,8 @@ function setNombre(frm)
 function updateSelector()
 {
     let html  = '';
-
-
-
     let arbol = mostrarArbol(treeRoot);
 
-        
     for(let i=0;i<arbol.length;i++)
     {
         html += '<option>'+arbol[i].name+'</option>';
@@ -927,184 +924,4 @@ function updateSelector()
     return false;
 
 }
-
-// function createRoot(frm)
-// {
-    
-//     let name = frm.rootEntity.value;
-//     // treeRoot = new Node("null",testEntity,name);
-//     rootCreated = true;
-    
-//     let html  = '';
-
-//         //Formulario de crear nodo
-//         html += '<h3>Añadir nodo</h3>';
-//         html += '<form onsubmit="return createNode(this)">';
-//         html += '<span>Entidad de nodo: </span>';
-//         html += '<input type="text" name="nodeEntity">';
-//         html += '<br>';
-//         html += '<span>Padre de nodo: </span>';
-//         html += '<select id="fatherSelectorCreate">';
-
-//         html += '<option>'+treeRoot.name+'</option>';
-
-
-//         html += '</select>';
-//         html += '<br>';
-//         html += '<input type="submit" value="Crear node">';
-//         html += '</form>';
-//         html += '</form>';
-//         html += '<div id="resultadoCrearnodo">';
-//         html += '</div>';
-//         html += '<hr>';
-
-//         //Formulario de consultar padre
-//         html += '<h3>Consultar padre</h3>';
-//         html += '<form onsubmit="return consultFather(this)">';
-//         html += '<span>Seleccionar nodo: </span>';
-//         html += '<select id="fatherSelectorConsult">';
-//         html += '<option>'+treeRoot.name+'</option>';
-//         html += '</select>';
-//         html += '<br>';
-//         html += '<input type="submit" value="Consultar padre">';
-//         html += '</form>';
-//         html += '<div id="resultadoConsultarPadre">';
-//         html += '</div>';
-//         html += '<hr>';
-
-
-
-//         //Formulario de set entidad
-//         html += '<h3>Cambiar nombre nodo</h3>';
-//         html += '<form onsubmit="return setNombre(this)">';
-//         html += '<span>Escribe el nuevo nombre: </span>';
-//         html += '<input type="text" name="nodeEntitySetting"><br>';
-//         html += '<span>Seleccionar nodo: </span>';
-//         html += '<select id="setEntitySelector">';
-//         html += '<option>'+treeRoot.name+'</option>';
-//         html += '</select>';
-//         html += '<br>';
-//         html += '<input type="submit" value="Cambiar entidad">';
-//         html += '</form>';
-//         html += '<div id="resultadoSetEntity">';
-//         html += '</div>';
-//         html += '<hr>';
-
-//         //Formulario de eliminar hijo
-//         html += '<h3>Eliminar hijo</h3>';
-//         html += '<form onsubmit="return eliminarChild(this)">';
-//         html += '<span>Seleccionar padre: </span>';
-//         html += '<select id="removeChildFatherSelector" onchange="return fatherChange()">';
-        
-
-//         html += '<option>'+treeRoot.name+'</option>';
-//         html += '</select>';
-
-//         html += '<br>';
-
-//         html += '<span>Seleccionar hijo: </span>';
-//         html += '<select id="removeChildChildSelector">';
-//         for(let i=0;i<treeRoot.child.length;i++)
-//         {
-//             html += '<option>'+treeRoot.child[i]+'</option>';
-//         }
-//         html += '</select>';
-//         html += '<br>';
-//         html += '<input type="submit" value="Eliminar entidad">';
-//         html += '</form>';
-//         html += '<div id="resultadoSetEntity">';
-//         html += '</div>';
-//         html += '<hr>';
-// /*********************************************
-// Modificacion Libin start
-// **********************************************/
-//         //Cargar matriz
-//         html += '<h3>Cargar matriz</h3>';
-//         html += '<form onsubmit="return cargarMatiz(this)">';
-//         html += '11<input type"text" name="matrizPisicion11" value="1" size="4">&nbsp;&nbsp;';
-//         html += '21<input type"text" name="matrizPisicion21" value="0" size="4">&nbsp;&nbsp;';
-//         html += '31<input type"text" name="matrizPisicion31" value="0" size="4">&nbsp;&nbsp;';
-//         html += '41<input type"text" name="matrizPisicion41" value="0" size="4">&nbsp;&nbsp;';
-//         html += '<br>';
-
-//         html += '12<input type"text" name="matrizPisicion12" value="0" size="4">&nbsp;&nbsp;';
-//         html += '22<input type"text" name="matrizPisicion22" value="1" size="4">&nbsp;&nbsp;';
-//         html += '32<input type"text" name="matrizPisicion32" value="0" size="4">&nbsp;&nbsp;';
-//         html += '42<input type"text" name="matrizPisicion42" value="0" size="4">&nbsp;&nbsp;';
-//         html += '<br>';
-
-//         html += '13<input type"text" name="matrizPisicion13" value="0" size="4">&nbsp;&nbsp;';
-//         html += '23<input type"text" name="matrizPisicion23" value="0" size="4">&nbsp;&nbsp;';
-//         html += '33<input type"text" name="matrizPisicion33" value="1" size="4">&nbsp;&nbsp;';
-//         html += '43<input type"text" name="matrizPisicion43" value="0" size="4">&nbsp;&nbsp;';
-//         html += '<br>';
-
-//         html += '14<input type"text" name="matrizPisicion14" value="0" size="4">&nbsp;&nbsp;';
-//         html += '24<input type"text" name="matrizPisicion24" value="0" size="4">&nbsp;&nbsp;';
-//         html += '34<input type"text" name="matrizPisicion34" value="0" size="4">&nbsp;&nbsp;';
-//         html += '44<input type"text" name="matrizPisicion44" value="1" size="4">&nbsp;&nbsp;';
-//         html += '<br>';
-        
-//         html += '<br>';
-//         html += '<input type="submit" value="Cargar matriz">';
-//         html += '</form>';
-//         html += '<hr>';
-//         //Trasladar matriz
-//         html += '<h3>Trasladar matriz</h3>';
-//         html += '<form onsubmit="return trasladarMatiz(this)">';
-//         html += 'x<input type"text" name="traslateX" value="0" size="4">&nbsp;&nbsp;';
-//         html += 'y<input type"text" name="traslateY" value="0" size="4">&nbsp;&nbsp;';
-//         html += 'z<input type"text" name="traslateZ" value="0" size="4">&nbsp;&nbsp;';
-//         html += '<br>';
-        
-//         html += '<br>';
-//         html += '<input type="submit" value="Trasladar matriz">';
-//         html += '</form>';
-//         html += '<hr>';
-
-//         //Escalar matriz
-//         html += '<h3>Escalar matriz</h3>';
-//         html += '<form onsubmit="return escalarMatiz(this)">';
-//         html += 'x<input type"text" name="scalarX" value="1" size="4">&nbsp;&nbsp;';
-//         html += 'y<input type"text" name="scalarY" value="1" size="4">&nbsp;&nbsp;';
-//         html += 'z<input type"text" name="scalarZ" value="1" size="4">&nbsp;&nbsp;';
-//         html += '<br>';
-        
-//         html += '<br>';
-//         html += '<input type="submit" value="Escalar matriz">';
-//         html += '</form>';
-//         html += '<hr>';
-
-//         //Rotacion matriz
-//         html += '<h3>Rotar matriz</h3>';
-//         html += '<form onsubmit="return rotarMatiz(this)">';
-//         html += '<select id="CoordenadaRotacionSelector">';
-//         html += '<option>x</option>';
-//         html += '<option>y</option>';
-//         html += '<option>z</option>';
-//         html += '</select>&nbsp;&nbsp;'
-//         html += 'Angulo<input type"text" name="anguloRotacion" value="0" size="4">º&nbsp;&nbsp;';
-//         html += '<br>';
-        
-//         html += '<br>';
-//         html += '<input type="submit" value="Escalar matriz">';
-//         html += '</form>';
-//         html += '<hr>';
-
-//         //Prueba de transformacion
-//         html += '<h3>Mostrar matriz</h3>';
-//         html += '<button type="button" onclick="return showMatrix()">Mostrar matriz</button>';
-//         html += '<hr>';
-//         html += '<div id="resultadoshowMatrix">';
-//         html += '</div>';
-//         html += '<hr>';
-// /*********************************************
-// Modificacion Libin finish
-// **********************************************/
-
-//     document.getElementById("nodefooter").innerHTML=html;
-
-
-//     return false;
-// }
 
