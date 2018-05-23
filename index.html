@@ -3,10 +3,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Ejemplo de escena 2</title>
+	<link rel="stylesheet" href="estilo01.css">
+
 	<script type="text/javascript" src="./vendor/js/signals.js"></script>
     <script type="text/javascript" src="./vendor/js/glMatrix.js"></script>
     <script type="text/javascript" src="./GestorRecursos/GestorRecursos.js"></script>
     <script type="text/javascript" src="./fachada.js"></script>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     
     <!-- glUtils -->
     <script type="text/javascript" src="libs/glUtils.js"></script>
@@ -21,11 +25,12 @@
 </head>
 <body onload="InitDemo();setTimeout('renderLoop();',300);">	
 
-	<h1>TAG - Cargado y renderizado de objetos</h1>
-
-	<canvas id='glcanvas' width='1000' height='500'>
-		Este navegador no soporta weBGL, sentimos las molestias.
-	</canvas>
+	<h1>Tour virtual - Teatro Municipal</h1>
+	<div style="width: 100%">
+		<canvas id='glcanvas' width='1000' height='500'>
+			Este navegador no soporta weBGL, sentimos las molestias.
+		</canvas>
+	</div>
 
 	
 </body>

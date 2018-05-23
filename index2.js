@@ -157,6 +157,8 @@ function crearArbolEjemplo() //Funcion para crear arbol
     transLuz = crearTransformacion(treeRoot);
     trans1 = crearTransformacion(treeRoot);
     transTeatro = crearTransformacion(trans1);
+    transMono = crearTransformacion(trans1);
+
     // transCojin = crearTransformacion(trans1);
     // transSilla = crearTransformacion(trans1);
     // transCojin1 = crearTransformacion(transCojin);
@@ -219,21 +221,25 @@ function crearArbolEjemplo() //Funcion para crear arbol
     transLuz.entity.traslate([5, 15, 5]);
     trans1.entity.rotationX(-90);
     trans1.entity.rotationZ(90);
-    trans1.entity.traslate([0,-22,-10])
+    trans1.entity.traslate([-90,-22,-10])
 
     transTeatro.entity.rotationX(-180);
     transTeatro.entity.rotationZ(-180);
     transTeatro.entity.scalar([0.45,0.45,0.45]);
     transTeatro.entity.traslate([-15, 122, 15]);
 
+    transMono.entity.scalar([50,50,50]);
 
     camara = crearCamara(transCamara);
     luz = crearLuz(transLuz, 0.85);
 
 
 
+    trans1.entity.rotationY(-11);
+
     sillas = crearMalla(trans1, "sillas.json", "madera_roble.jpg");
     teatro = crearMalla(transTeatro, "teatro.json", "madera_roble.jpg");
+    mono = crearMalla(trans1, "Susan.json", "SusanTexture.jpg");
 
     // lucesBajo = crearMalla(trans1, "lucesBajo.json", "madera_roble.jpg");
 
@@ -356,6 +362,7 @@ function crearArbolEjemplo() //Funcion para crear arbol
 
 }
 
+// controles de la camara
 function moverCamara(direccion) {
     var salto = 0.6;
     var gradoDeRotacion = 1;
@@ -407,45 +414,35 @@ function moverCamara(direccion) {
     }
 }
 
+// controles de la camara
 window.onkeypress = function(e) {
-    if (e.key == 'a') {
+    if (e.key == 's') {
         moverCamara('izq');
     }
-    if (e.key == 'd') {
+    if (e.key == 'w') {
         moverCamara('der');
     }
-    if (e.key == 'w') {
+    if (e.key == 'q') {
         moverCamara('alante');
     }
-    if (e.key == 's') {
+    if (e.key == 'e') {
         moverCamara('detras');
     }
-    if (e.key == 'e') {
+    if (e.key == 'd') {
         moverCamara('arriba');
     }
-    if (e.key == 'q') {
+    if (e.key == 'a') {
         moverCamara('abajo');
     }
     //ROTACIONES
-    if (e.key == 'i') {
-        moverCamara('rotaX');
-    }
+     
     if (e.key == 'k') {
-        moverCamara('negrotaX');
-    }
-    if (e.key == 'j') {
         moverCamara('negrotaY');
     }
-    if (e.key == 'l') {
+    if (e.key == 'i') {
         moverCamara('rotaY');
     }
-    if (e.key == 'o') {
-        moverCamara('rotaZ');
-    }
-    if (e.key == 'u') {
-        moverCamara('negrotaZ');
-    }
-
+    
 }
 
 
