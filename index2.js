@@ -156,7 +156,7 @@ function crearArbolEjemplo() //Funcion para crear arbol
     transCamara = crearTransformacion(treeRoot);
     transLuz = crearTransformacion(treeRoot);
     trans1 = crearTransformacion(treeRoot);
-    transCojines = crearTransformacion(trans1);
+    transTeatro = crearTransformacion(trans1);
     // transCojin = crearTransformacion(trans1);
     // transSilla = crearTransformacion(trans1);
     // transCojin1 = crearTransformacion(transCojin);
@@ -214,25 +214,30 @@ function crearArbolEjemplo() //Funcion para crear arbol
     // transSilla24 = crearTransformacion(transSilla);
 
     //Realizando transformaciones
-    transCamara.entity.traslate([0, 2, -40]);
+    transCamara.entity.traslate([0, 2, -80]);
     transLuz.entity.rotationX(30);
     transLuz.entity.traslate([5, 15, 5]);
     trans1.entity.rotationX(-90);
     trans1.entity.rotationZ(90);
-    trans1.entity.traslate([0,-22,-15])
+    trans1.entity.traslate([0,-22,-10])
 
-    transCojines.entity.rotationX(180);
-    transCojines.entity.rotationY(-90);
+    transTeatro.entity.rotationX(-180);
+    transTeatro.entity.rotationZ(-180);
+    transTeatro.entity.scalar([0.45,0.45,0.45]);
+    transTeatro.entity.traslate([-15, 122, 15]);
+
 
     camara = crearCamara(transCamara);
-    luz = crearLuz(transLuz, 0.5);
+    luz = crearLuz(transLuz, 0.85);
 
 
 
     sillas = crearMalla(trans1, "sillas.json", "madera_roble.jpg");
+    teatro = crearMalla(transTeatro, "teatro.json", "madera_roble.jpg");
+
     // lucesBajo = crearMalla(trans1, "lucesBajo.json", "madera_roble.jpg");
 
-    cojines = crearMalla(transCojines,"cojines.json", "tela-jacquard-geometrico-negra.jpg");
+    // cojines = crearMalla(transTeatro,"cojines.json", "tela-jacquard-geometrico-negra.jpg");
     // transCojin.entity.traslate([0, 0, 0.1]);
 
     // transCojin2.entity.traslate([0, 2.1, 0]);
@@ -352,7 +357,7 @@ function crearArbolEjemplo() //Funcion para crear arbol
 }
 
 function moverCamara(direccion) {
-    var salto = 0.15;
+    var salto = 0.6;
     var gradoDeRotacion = 1;
     switch (direccion) {
         case 'alante':
