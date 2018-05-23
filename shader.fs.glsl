@@ -1,3 +1,4 @@
+//Codigo aprendido desde https://www.youtube.com/watch?v=kB0ZVUrI4Aw&t=480s
 precision mediump float;
 
 struct DirectionalLight
@@ -16,7 +17,7 @@ uniform vec3 ambientLightIntensity;
 uniform DirectionalLight sun;
 uniform sampler2D sampler;
 uniform mat4 mView;
-uniform mat4 mCameraLocation;
+uniform vec4 mCameraLocation;
 
 void main()
 {
@@ -38,7 +39,6 @@ void main()
 	float c = 2.0 * attenuation*b;
 
 	vec3 especularLightIntensity = sun.color * c ;
-
 
 	vec3 diffuseLightIntensity = sun.color * max(dot(fragNormal, normSunDir), 0.0);
 

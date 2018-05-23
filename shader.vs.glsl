@@ -1,3 +1,4 @@
+//Codigo aprendido desde https://www.youtube.com/watch?v=kB0ZVUrI4Aw&t=480s
 precision mediump float;
 
 attribute vec3 vertPosition;

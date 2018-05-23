@@ -1,5 +1,7 @@
-// Load a text resource from a file over the network
-var loadTextResource = function (url, callback) {
+//Funcion call back para cargar contenido de archivo
+//Este codigo he aprendido desde https://www.youtube.com/watch?v=kB0ZVUrI4Aw&t=480s
+var loadTextResource = function (url, callback) 
+{
 	var request = new XMLHttpRequest();
 	request.open('GET', url + '?please-dont-cache=' + Math.random(), true);
 	request.onload = function () 

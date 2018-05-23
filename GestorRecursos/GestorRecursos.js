@@ -1,5 +1,7 @@
 "use strict";
 
+let FicheroCargado=[];
+
 //CLASE RECURSO DE LA QUE HEDERAN EL RESTO
 class TRecurso
 {
@@ -41,7 +43,7 @@ class TRecursoMalla extends TRecurso
 		let url = "./GestorRecursos/mallas/" + this.nombre;
 		var that = this;
 		
-		loadTextResource(url, function (vsErr, vsText)
+		loadTextResource(url, function (vsErr, vsText)//LLamada a recoger datos de malla
 		{
 			if (vsErr)
 			{
@@ -50,9 +52,19 @@ class TRecursoMalla extends TRecurso
 	        }
 	        else 
 	        {
-
-	        	that.actualizarValores(JSON.parse(vsText));
-
+	        	let ficheroEncontrado=false;
+	        	for(let i=0;i<FicheroCargado.length;i++)
+	        	{
+	        		if(vsText==FicheroCargado[i])
+	        		{
+	        			ficheroEncontrado=true;
+	        		}
+	        	}
+	        	if(ficheroEncontrado==false)
+	        	{
+	        		FicheroCargado.push(vsText);
+	        		that.actualizarValores(JSON.parse(vsText));
+	        	}
 		    }
 		});
 		return this.fichero;
@@ -67,29 +79,30 @@ class TRecursoMalla extends TRecurso
     	this.colors   = j.colors;
     	this.metadata = j.meshes[0].faces.length;
     	this.fichero  = j;
-    	
-        this.vertexBufferObject = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBufferObject);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.vertices), gl.STATIC_DRAW);
+    	this.cargarBuffer();
+    }
 
-		this.normalBufferObject = gl.createBuffer();
+    cargarBuffer()//Cargar buffers a los objetos
+    {
+    	this.normalBufferObject = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBufferObject);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.normales), gl.STATIC_DRAW);
 
-        this.indexBufferObject = gl.createBuffer();
+        this.vertexBufferObject = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBufferObject);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.vertices), gl.STATIC_DRAW);
+        gl.bindBuffer(gl.ARRAY_BUFFER, null);
+        
+		this.indexBufferObject = gl.createBuffer();
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBufferObject);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.faces), gl.STATIC_DRAW);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
 
-        this.TexCoordVertexBufferObject = gl.createBuffer();
+ 		this.TexCoordVertexBufferObject = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.TexCoordVertexBufferObject);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.fichero.meshes[0].texturecoords[0]), gl.STATIC_DRAW);
-
-        
+	    gl.bindBuffer(gl.ARRAY_BUFFER, null);
     }
-
-    // draw(){
-    // 	console.log("Entrando al draw() de TRMalla la modelView es" , model);
-    // }
 }
 
 //RECURSO MATERIAL
@@ -163,15 +176,8 @@ class TRecursoTextura extends TRecurso
     	super(a);
     	this.textura = new Image();
     }
-    cargarFichero()
+    cargarFichero()//Cargar fichero de textura
     {
-    	// var c = false;    	
-    	// try{
-    	// 	this.textura.src = './texturas/'+this.nombre;
-    	// 	c = true;
-    	// }
-    	// catch(e){ console.log(e); }
-    	// return c;
     	let url = "./GestorRecursos/texturas/" + this.nombre;
     	var that = this;
 		loadImage(url, function (imgErr, img)
@@ -192,7 +198,6 @@ class TRecursoTextura extends TRecurso
     }
     actualizarImg()
     {
-    	
     	// this.textura.src = './GestorRecursos/texturas/'+this.nombre;
     	this.textura.src = './GestorRecursos/texturas/'+this.nombre;
     }
@@ -252,7 +257,6 @@ class TGestorRecursos
 		var p = this.arrayIndice.indexOf(a);
 		var textura = this.arrayRecursos[p];
 		var result;
-		// if(textura == null || textura == undefined){
 			if(this.verificarFormato(a,2))
 			{
 				textura = new TRecursoTextura(a);
@@ -260,7 +264,6 @@ class TGestorRecursos
 				this.arrayRecursos.push(textura);
 				this.arrayIndice.push(a);											
 			}
-		// }
 		return result;
 	}
 
@@ -307,15 +310,4 @@ class TGestorRecursos
 	}
 }
 
-
-/************************/
-//    PRUEBAS CODIGO
-/************************/
-
 var Gestor = new TGestorRecursos();
-
-// console.log(Gestor.TRMaterial("material.json"));
-
-// console.log(Gestor.TRMalla("icosphereMaterial.json"));
-
-// Gestor.recursos();

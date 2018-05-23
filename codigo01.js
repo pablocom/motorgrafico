@@ -6,11 +6,6 @@ var treeRoot= new Node("null",testEntity,"raiz");
 var pila = new Pila();
 var model = mat4.create();
 
-var part = [];    // Para cargar varios buffers de distintos objetos.
-var vbo = [];
-var ibo = [];
-var nbo = [];
-
 var worldMatrix = new Float32Array(16);
 var viewMatrix = new Float32Array(16);
 var projMatrix = new Float32Array(16);
@@ -25,8 +20,10 @@ var positionAttribLocation;
 var texCoordAttribLocation;
 var normalAttribLocation;
 var Texture;
+var caras;
 
-function Pila() {
+function Pila() //La pila para el arbol
+{
 
     var elements = [];
  
@@ -101,9 +98,6 @@ function Entity()//Clase interfaz
 
 }
 
-/**************************************
-Ramon start
-***************************************/
 function Luz()
 {
     //Herencia
@@ -112,7 +106,7 @@ function Luz()
 
     this.beginDraw  = function()
     {
-        console.log("Creando la luz");
+        //Codigo aprendido desde https://www.youtube.com/watch?v=kB0ZVUrI4Aw&t=480s
         var ambientUniformLocation = gl.getUniformLocation(programHandle, 'ambientLightIntensity');
         var sunlightDirUniformLocation = gl.getUniformLocation(programHandle, 'sun.direction');
         var sunlightIntUniformLocation = gl.getUniformLocation(programHandle, 'sun.color');
@@ -166,20 +160,16 @@ function Camara()
         
         let cameraPosition=[model[12],model[13],model[14],1];
         let focusPosition=[2, 2, 2];
-
         
-        //viewMatrix = glm::lookAt(cameraPosition,cameraFocus,orientation);
-        // mat4.lookAt(viewMatrix, [model[12],model[13],model[14]],focusPosition , [0, 1, 0]);
         for(let i=0;i<16;i++)
         {
             viewMatrix[i]=model[i];
         }
-        console.log(viewMatrix);
         
         gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
         gl.uniformMatrix4fv(matViewUniformLocation, gl.FALSE, viewMatrix);
         gl.uniformMatrix4fv(matProjUniformLocation, gl.FALSE, projMatrix);
-        gl.uniformMatrix4fv(matCameraUniformLocaton, gl.FALSE, cameraPosition);
+        gl.uniform4fv(matCameraUniformLocaton, cameraPosition);
 
     }
 
@@ -187,20 +177,7 @@ function Camara()
     {
 
     }
-
-
-
 }
-/**************************************
-Ramon end
-***************************************/
-
-
-
-/***********************************
-Modificacion Libin start
-************************************/
-
 
 var facesAux;
 function Malla()
@@ -219,65 +196,34 @@ function Malla()
     {
         this.textura = Gestor.TRTextura(fichero);
     }
-    // this.cargarBuffers = function()
-    // {
-    //         console.log("Los vertices de la mallaaaaaaaaa",this.malla.vertices);
-    //         var vertexBufferObject = gl.createBuffer();
-    //         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBufferObject);
-    //         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.malla.vertices), gl.STATIC_DRAW);
-
-    //         var normalBufferObject = gl.createBuffer();
-    //         gl.bindBuffer(gl.ARRAY_BUFFER, normalBufferObject);
-    //         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.malla.normales), gl.STATIC_DRAW);
-
-
-    //         var indexBufferObject = gl.createBuffer();
-    //         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBufferObject);
-    //         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.malla.faces), gl.STATIC_DRAW);
-            
-
-    //         //Array de buffers para cargar objetos distintos
-    //         console.log(vertexBufferObject);
-    //         vbo.push(vertexBufferObject);
-    //         ibo.push(indexBufferObject);
-    //         nbo.push(normalBufferObject);
-
-    //         //3. Clean up
-    //         gl.bindBuffer(gl.ARRAY_BUFFER, null);
-    //         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
-
-    // }
     this.beginDraw  = function()
     {
         // dibujar
-        // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         gl.enable(gl.DEPTH_TEST);
-        gl.enable(gl.CULL_FACE);
-        gl.frontFace(gl.CCW);
-        gl.cullFace(gl.BACK);
-
+        //Codigo aprendido desde https://www.youtube.com/watch?v=kB0ZVUrI4Aw&t=480s
+        //Vincular vertice buffer a webgl
         gl.bindBuffer(gl.ARRAY_BUFFER, this.malla.vertexBufferObject);
         positionAttribLocation = gl.getAttribLocation(programHandle, 'vertPosition');
         gl.vertexAttribPointer
         (
-            positionAttribLocation, // Attribute location
-            3, // Number of elements per attribute
-            gl.FLOAT, // Type of elements
+            positionAttribLocation, // Posicion de attribute 
+            3, // Cantidad de elementos por atributo
+            gl.FLOAT, // Tipo of elementos
             gl.FALSE,
-            3 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
-            0 // Offset from the beginning of a single vertex to this attribute
+            3 * Float32Array.BYTES_PER_ELEMENT, // Tamaño de un vértice individual
+            0 //Desplazamiento desde el comienzo de un solo vértice a este atributo
         );
         gl.enableVertexAttribArray(positionAttribLocation);
-
+        //Vincular mapa de coordenada buffer a webgl
         gl.bindBuffer(gl.ARRAY_BUFFER, this.malla.TexCoordVertexBufferObject);
         texCoordAttribLocation = gl.getAttribLocation(programHandle, 'vertTexCoord');
         gl.vertexAttribPointer
         (
-            texCoordAttribLocation, // Attribute location
-            2, // Number of elements per attribute
-            gl.FLOAT, // Type of elements
+            texCoordAttribLocation, 
+            2, 
+            gl.FLOAT, 
             gl.FALSE,
-            2 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+            2 * Float32Array.BYTES_PER_ELEMENT,
             0
         );
         gl.enableVertexAttribArray(texCoordAttribLocation);
@@ -293,9 +239,6 @@ function Malla()
         );
         gl.enableVertexAttribArray(normalAttribLocation);
 
-        //11
-        // let SusanImage= new Image();
-        // SusanImage=this.textura;
         Texture = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, Texture);
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
@@ -307,64 +250,32 @@ function Malla()
         (
             gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,
             gl.UNSIGNED_BYTE,
-            // document.getElementById("ejemplo")
             this.textura
         );
         gl.bindTexture(gl.TEXTURE_2D, null);
 
-        // Tell OpenGL state machine which program should be active.
+        // Indique a la máquina de estado webGL que programa debe estar activo.
         gl.useProgram(programHandle);
 
+        caras=this.malla.faces.length;//Sacar cantidad de caras
         
-        // var matWorldUniformLocation = gl.getUniformLocation(programHandle, 'mWorld');
-        // var matViewUniformLocation = gl.getUniformLocation(programHandle, 'mView');
-        // var matProjUniformLocation = gl.getUniformLocation(programHandle, 'mProj');
-
-
-        // mat4.identity(worldMatrix);
-        // mat4.lookAt(viewMatrix, [0, 0, -8], [0, 0, 0], [0, 1, 0]);
-        // var canvas = document.getElementById('glcanvas');
-        // mat4.perspective(projMatrix, glMatrix.toRadian(45), canvas.width / canvas.height, 0.1, 1000.0);
-
-        // gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
-        // gl.uniformMatrix4fv(matViewUniformLocation, gl.FALSE, viewMatrix);
-        // gl.uniformMatrix4fv(matProjUniformLocation, gl.FALSE, projMatrix);
-        //
-        // Lighting information
-        //
-        // gl.useProgram(programHandle);
-
-        // var ambientUniformLocation = gl.getUniformLocation(programHandle, 'ambientLightIntensity');
-        // var sunlightDirUniformLocation = gl.getUniformLocation(programHandle, 'sun.direction');
-        // var sunlightIntUniformLocation = gl.getUniformLocation(programHandle, 'sun.color');
-
-        // gl.uniform3f(ambientUniformLocation, 0.2, 0.2, 0.2);
-        // gl.uniform3f(sunlightDirUniformLocation, 3.0, 4.0, -2.0);
-        // gl.uniform3f(sunlightIntUniformLocation, 0.9, 0.9, 0.9);
-
-        var caras=this.malla.faces.length;
-
         gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, model);
-
-        // gl.clearColor(0.75, 0.85, 0.8, 1.0);
-        // gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 
         gl.bindTexture(gl.TEXTURE_2D, Texture);
         gl.activeTexture(gl.TEXTURE0);
-        
+
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.malla.indexBufferObject);
+
         gl.drawElements(gl.TRIANGLES, caras, gl.UNSIGNED_SHORT, 0);
 
     }
 
-    this.endDraw    = function()
+    this.endDraw  = function()
     {
-        // return pila.pop();
-        // console.log("Saliendo de draw().")
+
     }
 
 }
-
-// let nodoMalla = new Node( nodo , Gestor.TRMalla('cubo.json') , name );
 
 function Transform()
 {
@@ -425,19 +336,17 @@ function Transform()
     this.rotationZ = function(angulo)
     {
         let rad=angulo*Math.PI/180;
-        this.matriz = mat4.scalar.rotateY(this.matriz,this.matriz,rad);
+        this.matriz = mat4.scalar.rotateZ(this.matriz,this.matriz,rad);
     }
 
 
     this.beginDraw = function()// apila el model actual
     {
-        // console.log("Vamos a apilar:", model);
         // crear una nueva para que no apunten a la misma zona de memoria
         var aux = new mat4.create();
         for(var i = 0; i<model.length; i++){
             aux[i]=model[i]
         }
-        // console.log("Vamos a apilar la matriz ->", aux);
         pila.add(aux);
         model = mat4.multiply(model, model, this.matriz);
         
@@ -445,119 +354,12 @@ function Transform()
 
     this.endDraw   = function()// desapilla el ultimo metido en la pila
     {
-        // console.log("Desapilando", pila[pila.length-1]);
         model=pila.pop();
-        // return pila.pop();
     }
-
 }
 
 var testEntity = new Transform();
 
-function showMatrix()
-{
-    // for(let i=0;i<testEntity.matriz.length;i++)
-    // {
-
-    //     console.log("Matriz "+testEntity.matriz[i]);
-    // }
-
-    let html = testEntity.matriz[0]+" "+testEntity.matriz[4]+" "+testEntity.matriz[8]+" "+testEntity.matriz[12]+"<br>";
-        html+= testEntity.matriz[1]+" "+testEntity.matriz[5]+" "+testEntity.matriz[9]+" "+testEntity.matriz[13]+"<br>";
-        html+= testEntity.matriz[2]+" "+testEntity.matriz[6]+" "+testEntity.matriz[10]+" "+testEntity.matriz[14]+"<br>";
-        html+= testEntity.matriz[3]+" "+testEntity.matriz[7]+" "+testEntity.matriz[11]+" "+testEntity.matriz[15]+"<br>";
-
-    document.getElementById("resultadoshowMatrix").innerHTML=html;
-
-
-    return false;
-}
-
-function cargarMatiz(frm)
-{
-    let array=[];
-    array[0]=frm.matrizPisicion11.value;
-    array[1]=frm.matrizPisicion12.value;
-    array[2]=frm.matrizPisicion13.value;
-    array[3]=frm.matrizPisicion14.value;
-    array[4]=frm.matrizPisicion21.value;
-    array[5]=frm.matrizPisicion22.value;
-    array[6]=frm.matrizPisicion23.value;
-    array[7]=frm.matrizPisicion24.value;
-    array[8]=frm.matrizPisicion31.value;
-    array[9]=frm.matrizPisicion32.value;
-    array[10]=frm.matrizPisicion33.value;
-    array[11]=frm.matrizPisicion34.value;
-    array[12]=frm.matrizPisicion41.value;
-    array[13]=frm.matrizPisicion42.value;
-    array[14]=frm.matrizPisicion43.value;
-    array[15]=frm.matrizPisicion44.value;
-
-    testEntity.cargar(array);
-
-    showMatrix();
-
-    return false;
-}
-
-function trasladarMatiz(frm)
-{
-
-     let x=frm.traslateX.value;
-     let y=frm.traslateY.value;
-     let z=frm.traslateZ.value;
-
-     let vector = [x,y,z];
-     testEntity.traslate(vector);
-
-     showMatrix();
-
-    return false;
-}
-
-function escalarMatiz(frm)
-{
-
-     let x=frm.scalarX.value;
-     let y=frm.scalarY.value;
-     let z=frm.scalarZ.value;
-
-     let vector = [x,y,z];
-     testEntity.scalar(vector);
-
-     showMatrix();
-
-    return false;
-}
-
-function rotarMatiz(frm)
-{
-
-    let selector    = document.getElementById("CoordenadaRotacionSelector");
-    let coordenada  = selector.options[selector.selectedIndex].value;
-    let angulo      = frm.anguloRotacion.value;
-
-    if(coordenada=='x')
-    {
-        testEntity.rotationX(angulo);
-    }
-    else if(coordenada=='y')
-    {
-        testEntity.rotationY(angulo);
-    }
-    else if(coordenada=='z')
-    {
-        testEntity.rotationZ(angulo);
-    }
-
-    showMatrix();
-
-    return false;
-}
-
-/***********************************
-Modificacion Libin finish
-************************************/
 function Node( father , entity , name ) 
 {
     this.father = father;
@@ -604,30 +406,13 @@ Metodo draw
 }
 
 
-// START MODIFICATION PABLO
-
-function eliminarChild(frm)
+function eliminarChild(name)
 {
-    let selector= document.getElementById("removeChildChildSelector");
-    let name  = selector.options[selector.selectedIndex].value;
     let arbol = mostrarArbol(treeRoot);
     let nodo;
-    // for(let i=0;i<arbol.length;i++)
-    // {
-    //     if(arbol[i].name==name)
-    //     {
-    //         nodo = arbol[i];
-    //         console.log(nodo.name);
-    //         eliminarTodosHijosNodo(nodo);
-            
-    //     }
-    // }
     nodo=encontrarNodo(treeRoot,name);
 
     eliminarTodosHijosNodo(nodo);
-
-    updateSelector();
-    return false
 }
 
 function encontrarNodo(raiz,name)
@@ -671,16 +456,10 @@ function eliminarTodosHijosNodo(nodo){
     return false;
 }
 
-function createNode(frm)
+function createNode(name,father)
 {
     if(rootCreated)
     {
-        //Sacar los valores del formulario
-        let name    = frm.nodeEntity.value;
-        let selector= document.getElementById("fatherSelectorCreate");
-        let father  = selector.options[selector.selectedIndex].value;
-
-
         //Sacamos todos los nodos
         let arbol = mostrarArbol(treeRoot);
 
@@ -708,26 +487,17 @@ function createNode(frm)
             //Añadir el nuevo hijo a padre
             nodefather.addChild(node);
 
-            let html = '';
-            html += '<p>El nodo '+ name +' ha creado con existo</p>';
-            html += '<p>El padre es: '+ father +'</p>';
-            document.getElementById("resultadoCrearnodo").innerHTML=html;
-
-            updateSelector();
+            console.log('El nodo '+ name +' ha creado con existo');
         }
         else //Si el nombre existe ya, devolvemos un mensaje diciendo que el nombre ya existe
         {
-            let html = 'El nombre ya existe, introduce otro nombre';
-            document.getElementById("resultadoCrearnodo").innerHTML=html;
+            console.log('El nombre ya existe, introduce otro nombre');
         }
-        
-
     }
     else
     {
-        //console.log("Please create root first.")
+        console.log("Please create root first.")
     }
-    return false;
 }
 
 function mostrarArbol(nodo)
@@ -749,10 +519,8 @@ function mostrarArbolRecursivo(nodo,arbol)
 
 
 
-function fatherChange()
+function fatherChange(name,child) 
 {
-    let selector    = document.getElementById("removeChildFatherSelector");
-    let name      = selector.options[selector.selectedIndex].value;
     let arbol = mostrarArbol(treeRoot);
     let fatherNode;
 
@@ -761,25 +529,14 @@ function fatherChange()
         if(arbol[i].name==name)
             fatherNode=arbol[i];
     }
-
-    html  = '';
-    for(let i=0;i<fatherNode.child.length;i++)
-    {
-        html += '<option>'+ fatherNode.child[i].name +'</option>';
-    }
-    document.getElementById('removeChildChildSelector').innerHTML=html;
-
-    return false;
-
+    child.father=fatherNode;
 }
 
 
-function consultFather(frm)
+function consultFather(name)
 {
     if(rootCreated)
     {
-        let selector    = document.getElementById("fatherSelectorConsult");
-        let name        = selector.options[selector.selectedIndex].value;
         let encontrado  = false;
 
         let arbol = mostrarArbol(treeRoot);
@@ -791,36 +548,28 @@ function consultFather(frm)
                 let html='';
                 if(arbol[i].father==null)
                 {
-                    html = 'El nodo ' + name + ' es la raiz, por lo tanto, no tiene padre';
+                    console.log('El nodo ' + name + ' es la raiz, por lo tanto, no tiene padre');
                 }
                 else
                 {
-                    html = '<p>El padre del nodo ' + name + ' es '+ arbol[i].father.name + '</p>';
+                    console.log('El padre del nodo ' + name + ' es '+ arbol[i].father.name);
                 }
-                
-
-                document.getElementById("resultadoConsultarPadre").innerHTML=html;
                 encontrado = true;
             }
         }
         if(encontrado == false)
         {
-            let html = '<p>No ha encontrado el nodo</p>';
-            document.getElementById("resultadoConsultarPadre").innerHTML=html;
+            console.log('No ha encontrado el nodo');
         }
     }
     else
     {
         console.log("Please create root first.")
     }
-    return false;
 }
 
-function setNombre(frm)
+function setNombre(name)
 {
-    let selector    = document.getElementById("setEntitySelector");
-    let name        = selector.options[selector.selectedIndex].value;
-    let valor       = frm.nodeEntitySetting.value;
     let encontrado  = false;
 
     //Sacamos todos los nodos
@@ -846,65 +595,18 @@ function setNombre(frm)
         }
         if(encontrado==true)
         {
-            let html  = '';
-                html += 'Ha modificado correctamente, ahora la entidad del nodo es: '+valor;
-                document.getElementById('resultadoSetEntity').innerHTML=html;
-                updateSelector();
+                console.log('Ha modificado correctamente, ahora la entidad del nodo es: '+valor);
         }
     }
     else
     {
-            let html  = 'El nombre existe ya, introduce otro nombre por favor';
-            document.getElementById('resultadoSetEntity').innerHTML=html;
+            console.log('El nombre existe ya, introduce otro nombre por favor');
     }
 
-    
-    //resultadoSetEntity
-    return false;
 
 }
 
 
-//Actualizar el selector de los formularios
-function updateSelector()
-{
-    let html  = '';
-    let arbol = mostrarArbol(treeRoot);
 
-    for(let i=0;i<arbol.length;i++)
-    {
-        html += '<option>'+arbol[i].name+'</option>';
-    }
-    
-    //Actualizar selector
-    document.getElementById("fatherSelectorCreate").innerHTML=html;
-    document.getElementById("fatherSelectorConsult").innerHTML=html;
-    document.getElementById("setEntitySelector").innerHTML=html;
-    
-    //Actualizar el campo de eliminacion
-    document.getElementById("removeChildFatherSelector").innerHTML=html;
-    
-    let selector    = document.getElementById("removeChildFatherSelector");
-    let name      = selector.options[selector.selectedIndex].value;
-    let fatherNode;
-    for(let i=0;i<arbol.length;i++)
-    {
-        if(arbol[i].name==name)
-            fatherNode=arbol[i];
-    }
-    //console.log(fatherNode.name);
-
-    html  = '';
-    for(let i=0;i<fatherNode.child.length;i++)
-    {
-
-        html += '<option>'+ fatherNode.child[i].name +'</option>';
-    }
-
-    document.getElementById('removeChildChildSelector').innerHTML=html;
-    
-    return false;
-
-}
 
 

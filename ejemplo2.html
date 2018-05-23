@@ -8,10 +8,6 @@
     <script type="text/javascript" src="./GestorRecursos/GestorRecursos.js"></script>
     <script type="text/javascript" src="./fachada.js"></script>
     
-    <!-- Shaders -->
-    <script name="shader" data-src="shaders/vertex.glsl" data-type="vertex" data-version="v1"></script>
-    <script name="shader" data-src="shaders/fragment.glsl" data-type="fragment" data-version="v1"></script>
-    
     <!-- glUtils -->
     <script type="text/javascript" src="libs/glUtils.js"></script>
     <script type="text/javascript" src="libs/uiUtils.js"></script>
@@ -19,93 +15,10 @@
     
     <!-- Arbol escena -->
     <script type="text/javascript" src="./codigo01.js"></script>
-    
 	<script type="text/javascript" src="./index2.js"></script> 
 	<script src="util.js"></script>
-	<!-- 
-		UNIFORM
-		no cambian de un vértice a otro 
-
-		ATTRIBUTE
-		propio de cada vertice
-
-		VARYING
-		lo que queremos pasarle al fragment-shader
-	-->
-<!-- 	<script id="vertex-shader" type="x-shader/x-vertex">
-
-		attribute vec4 aVertexPosition;     // posicion del vertice
-		attribute vec4 aVertexNormal;       // normal del vertice
-
-		uniform mat4 uMVMatrix;             // modelView Matrix
-		uniform mat4 uPMatrix;              // matriz proeyccion
-		uniform mat4 uNMatrix;              // matriz normal de vertices
-
-		uniform vec3 uLightPosition;        // posicion de la luz (no cambia entre vertices)
-
-		varying vec3 vNormal;               // normal del vertice
-		varying vec3 vLightRay;	            // rayo de luz
-		varying vec3 vEyeVec;               // vector que forma la camara con la reflexion de la luz
-
-		void main(void) {
-
-			vec4 vertex = uMVMatrix * aVertexPosition;
-		    
-		    vNormal     = vec3(uNMatrix * aVertexNormal);
-		    
-		    vec4 light  = vec4(uLightPosition,1.0); //
-			
-		    vLightRay   = vertex.xyz - light.xyz; // calculo de la especuar restando vectores
-			
-		    vEyeVec     = -vec3(vertex.xyz); // vector con modulo negativo vector que forma con la camara
-		    
-		    gl_Position = uPMatrix * vertex; // posicion del vertice gl_Position poyeccion por moo
-			
-		}
-		
-	</script>
-
-	<script id="fragment-shader" type="x-shader/x-fragment">
-
-		#ifdef GL_ES
-		precision highp float;              // precision del vertice
-		#endif
-
-		uniform float uShininess;           // brillo de malla
-		uniform vec3 uLightAmbient;         // color ambiente
-		uniform vec3 uMaterialDiffuse;      // color difuso
-		uniform vec3 uMaterialSpecular;     // color especular
-
-		varying vec3 vNormal;		        // normal del vertice (pasada desde el vertex-shader)
-		varying  vec3 vLightRay;	        // 
-		varying  vec3 vEyeVec;
-
-		void main(void)
-		{
-			vec3 L = normalize(vLightRay);
-			vec3 N = normalize(vNormal);
-			
-			
-			float lambertTerm = dot(N,-L);
-			
-			vec3 finalColor = uLightAmbient;
-			
-			if(lambertTerm > 0.0)
-			{
-				finalColor += uMaterialDiffuse * lambertTerm;	
-				
-				vec3 E = normalize(vEyeVec);
-				vec3 R = reflect(L, N);
-				float specular = pow( max(dot(R, E), 0.0), uShininess);
-				finalColor += uMaterialSpecular * specular;
-			}
-			
-			gl_FragColor = vec4(finalColor, 1.0);
-
-		}
-	</script> -->
 </head>
-<body onload="InitDemo();setTimeout('dibujarEscana();animate();',300);">	
+<body onload="InitDemo();setTimeout('dibujarEscana();renderLoop();',300);">	
 
 	<h1>TAG - Cargado y renderizado de objetos</h1>
 
